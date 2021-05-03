@@ -16,5 +16,14 @@
       <description>RealSenseの深度カメラでRGBとDepth画像を保存するpython3のコードを作る。</description>
     </item>
     
+    <item>
+      <title>condaコマンド</title>
+      <link>https://Black092.github.io/blog/post/008/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/008/</guid>
+      <description>condaコマンド</description>
+    </item>
+    
   </channel>
 </rss>
