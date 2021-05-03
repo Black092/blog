@@ -4,7 +4,7 @@ date: 2021-01-03T00:55:33+09:00
 description: "KO-TETSU(こてつ)の技術メモ"
 summary: "cocosynthでcocoモデルを作る方法"
 tags: [ cocosynth ]
-categories: [ 物体認識 ]
+categories: [ 画像認識 ]
 type: post
 archives:
     - 2020
