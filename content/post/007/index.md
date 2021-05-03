@@ -3,8 +3,8 @@ title: "CBT形式で基本情報を受けて来た話"
 date: 2021-01-03T00:55:33+09:00
 description: "KO-TETSU(こてつ)の技術メモ"
 summary: "基本情報技術者試験"
-tags: [ 資格試験 ]
-categories: [ 資格試験 ]
+tags: [ 資格試験・受賞 ]
+categories: [ 資格試験・受賞 ]
 type: post
 archives:
     - 2020
