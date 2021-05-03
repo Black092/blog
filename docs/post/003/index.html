@@ -1,0 +1,345 @@
+<!DOCTYPE html> 
+<html lang="ja"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"><meta name="msapplication-TileColor" content="#1793d0">
+  <meta name="theme-color" content="#1793d0"><title>Ubuntu18でRealSense D435からpython3を使ってカメラ画像を取得する | こてつ技術メモ</title>
+  <meta property="og:title" content="Ubuntu18でRealSense D435からpython3を使ってカメラ画像を取得する - こてつ技術メモ">
+  <meta property="og:type" content="article">
+  
+  <meta property="article:published_time" content="2021-01-04T13:30:37&#43;08:00">
+  
+  
+  <meta property="article:modified_time" content="2021-01-04T13:30:37&#43;08:00">
+  
+  <meta name="keywords" content="blog">
+  <meta name="description" content="KO-TETSU(こてつ)の技術メモ"><meta name="author" content="こてつ">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://Black092.github.io/blog/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://Black092.github.io/blog/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="https://Black092.github.io/blog/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://Black092.github.io/blog/android-icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://Black092.github.io/blog/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://Black092.github.io/blog/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://Black092.github.io/blog/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://Black092.github.io/blog/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://Black092.github.io/blog/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://Black092.github.io/blog/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://Black092.github.io/blog/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://Black092.github.io/blog/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://Black092.github.io/blog/apple-icon-180x180.png">
+  <link rel="stylesheet" type="text/css" href="https://Black092.github.io/blog/css/hulga.min.css">
+</head><body>
+  <div id="main"><section class="hero is-primary shadow-hero ">
+  <div class="hero-head">
+    <nav class="navbar is-primary">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item " href="https://Black092.github.io/blog/">
+        こてつ技術メモ
+      </a>
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/" title="index">Home</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/tags/" title="tag">Tag</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/categories/" title="categories">Category</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/post/001/" title="about">About</a>
+        
+        <a class="navbar-item" href="https://github.com/Black092/" title="github">Github</a>
+        
+        <a class="navbar-item" href="https://twitter.com/Black_kitten092" title="twitter">Twitter</a>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+  </div>
+  <div class="hero-body">
+    <header class="container has-text-centered">
+      <h1 class="title post-title">
+        Ubuntu18でRealSense D435からpython3を使ってカメラ画像を取得する
+      </h1>
+      <h2 class="subtitle"><time class="post-meta">2021/01/04</time> ・
+          
+            <span class="post-tag post-meta">
+              <a href="https://Black092.github.io/blog//categories/%E7%94%BB%E5%83%8F%E5%87%A6%E7%90%86">画像処理</a>
+            </span>
+          
+        </h2>
+      
+      <div class="tagbox post-meta">
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/realsense">#RealSense</a>
+        </span>
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/python3">#python3</a>
+        </span>
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/opencv">#opencv</a>
+        </span>
+        
+      </div>
+      
+    </header>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      
+      <div class="column is-three-fifths is-offset-one-fifth">
+      
+        <article class="content" id="post-content"><h1 id="はじめに">はじめに</h1>
+<p>RealSenseを使うときのTips記事。</p>
+<h1 id="ubuntu1804--realsenseの環境構築">Ubuntu18.04 + RealSenseの環境構築</h1>
+<p>必要そうなものをいれておく。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo apt-get install git cmake doxygen libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev
+</code></pre></div><p>githubからクローンしてきてセットアップ。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">git clone https://github.com/IntelRealSense/librealsense
+cd librealsense
+./script/setup_udev_rules.sh
+./scripts/patch-ubuntu-kernel-4.16.sh
+</code></pre></div><p>cmakeしてビルドする。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">cmake ../ -DBUILD_EXAMPLES<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-DBUILD_GRAPHICAL_EXAMPLES<span style="color:#f92672">=</span>true <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>-DBUILD_PYTHON_BINDINGS<span style="color:#f92672">=</span>bool:true 
+make
+sudo make install
+sudo ldconfig
+</code></pre></div><p>realsense-viewerが開いてカメラ画像が出れば成功。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">realsense-viewer
+</code></pre></div><p><img src="https://Black092.github.io/blog/post/002/images/realsense-viewer.png" alt="realsense-viewer"></p>
+<hr>
+<p>でもRGBとdepth画像をよくみると視差があるし、保存するのもボタン押さないといけないのでめんどう。</p>
+<p>なのでpythonを使ってきちんと保存してくれるスクリプトを作成する。</p>
+<h2 id="セットアップ">セットアップ</h2>
+<hr>
+<h3 id="pyrealsense2">pyrealsense2</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo apt install python3-pip
+pip3 install pyrealsense2
+</code></pre></div><h3 id="numpy">numpy</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pip3 install numpy --upgrade
+</code></pre></div><h3 id="opencv2">opencv2</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">pip3 install opencv-contrib-python
+</code></pre></div><h4 id="color画像とdepth画像を表示するスクリプト">color画像とdepth画像を表示するスクリプト</h4>
+<p>それぞれカラー画像と深度カメラ画像を表示してみる。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pyrealsense2 <span style="color:#f92672">as</span> rs
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> cv2
+
+IM_WIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">640</span>
+IM_HEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">480</span>
+FPS <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+ESC <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>
+
+<span style="color:#75715e"># ストリーム(Depth/Color)の設定</span>
+config <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span>config()
+
+config<span style="color:#f92672">.</span>enable_stream(rs<span style="color:#f92672">.</span>stream<span style="color:#f92672">.</span>color, IM_WIDTH, IM_HEIGHT, rs<span style="color:#f92672">.</span>format<span style="color:#f92672">.</span>bgr8, FPS)
+config<span style="color:#f92672">.</span>enable_stream(rs<span style="color:#f92672">.</span>stream<span style="color:#f92672">.</span>depth, IM_WIDTH, IM_HEIGHT, rs<span style="color:#f92672">.</span>format<span style="color:#f92672">.</span>z16, FPS)
+
+<span style="color:#75715e"># ストリーミング開始</span>
+pipeline <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span>pipeline()
+profile <span style="color:#f92672">=</span> pipeline<span style="color:#f92672">.</span>start(config)
+
+<span style="color:#66d9ef">try</span>:
+    <span style="color:#66d9ef">while</span> True:
+
+        <span style="color:#75715e"># フレーム待ち(Color &amp; Depth)</span>
+        frames <span style="color:#f92672">=</span> pipeline<span style="color:#f92672">.</span>wait_for_frames()
+
+        color_frame <span style="color:#f92672">=</span> frames<span style="color:#f92672">.</span>get_color_frame()
+        depth_frame <span style="color:#f92672">=</span> frames<span style="color:#f92672">.</span>get_depth_frame()
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> depth_frame <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> color_frame:
+            <span style="color:#66d9ef">continue</span>
+
+        <span style="color:#75715e">#imageをnumpy arrayに</span>
+        color_image <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asanyarray(color_frame<span style="color:#f92672">.</span>get_data())
+        depth_image <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asanyarray(depth_frame<span style="color:#f92672">.</span>get_data())
+
+
+        cv2<span style="color:#f92672">.</span>namedWindow(<span style="color:#e6db74">&#39;RealSense:color_image&#39;</span>, cv2<span style="color:#f92672">.</span>WINDOW_AUTOSIZE)
+        cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#39;RealSense:color_image&#39;</span>, color_image)
+        cv2<span style="color:#f92672">.</span>namedWindow(<span style="color:#e6db74">&#39;RealSense:color_depth&#39;</span>, cv2<span style="color:#f92672">.</span>WINDOW_AUTOSIZE)
+        cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#39;RealSense:color_depth&#39;</span>, depth_image)
+        <span style="color:#66d9ef">if</span> cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span> <span style="color:#f92672">==</span> ESC:<span style="color:#75715e">#ESCで終了</span>
+            cv2<span style="color:#f92672">.</span>destroyAllWindows()
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;finish&#39;</span>)
+            <span style="color:#66d9ef">break</span>
+
+<span style="color:#66d9ef">finally</span>:
+
+    <span style="color:#75715e">#ストリーミング停止</span>
+    pipeline<span style="color:#f92672">.</span>stop()
+</code></pre></div><p>画像が表示されたと思う。ウィンドウをクリックしてESCで終了できる。</p>
+<hr>
+<p>次に画角が違うのでAlignオブジェクトを使って画角を揃える。あと画像の保存とかもできると楽なので付け加える。</p>
+<h4 id="画角を揃えてsキーで保存ができるようなスクリプト">画角を揃えてSキーで保存ができるようなスクリプト</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> pyrealsense2 <span style="color:#f92672">as</span> rs
+<span style="color:#f92672">import</span> numpy <span style="color:#f92672">as</span> np
+<span style="color:#f92672">import</span> cv2
+
+IM_WIDTH <span style="color:#f92672">=</span> <span style="color:#ae81ff">640</span>
+IM_HEIGHT <span style="color:#f92672">=</span> <span style="color:#ae81ff">480</span>
+FPS <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>
+capture_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+ESC <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>
+
+<span style="color:#75715e"># ストリーム(Depth/Color)の設定</span>
+config <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span>config()
+
+config<span style="color:#f92672">.</span>enable_stream(rs<span style="color:#f92672">.</span>stream<span style="color:#f92672">.</span>color, IM_WIDTH, IM_HEIGHT, rs<span style="color:#f92672">.</span>format<span style="color:#f92672">.</span>bgr8, FPS)
+config<span style="color:#f92672">.</span>enable_stream(rs<span style="color:#f92672">.</span>stream<span style="color:#f92672">.</span>depth, IM_WIDTH, IM_HEIGHT, rs<span style="color:#f92672">.</span>format<span style="color:#f92672">.</span>z16, FPS)
+
+<span style="color:#75715e"># ストリーミング開始</span>
+pipeline <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span>pipeline()
+profile <span style="color:#f92672">=</span> pipeline<span style="color:#f92672">.</span>start(config)
+
+<span style="color:#75715e"># Alignオブジェクト生成</span>
+align_to <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span>stream<span style="color:#f92672">.</span>color
+align <span style="color:#f92672">=</span> rs<span style="color:#f92672">.</span>align(align_to)
+
+<span style="color:#66d9ef">try</span>:
+    <span style="color:#66d9ef">while</span> True:
+
+        <span style="color:#75715e"># フレーム待ち(Color &amp; Depth)</span>
+        frames <span style="color:#f92672">=</span> pipeline<span style="color:#f92672">.</span>wait_for_frames()
+        aligned_frames <span style="color:#f92672">=</span> align<span style="color:#f92672">.</span>process(frames)
+
+        color_frame <span style="color:#f92672">=</span> aligned_frames<span style="color:#f92672">.</span>get_color_frame()
+        depth_frame <span style="color:#f92672">=</span> aligned_frames<span style="color:#f92672">.</span>get_depth_frame()
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> depth_frame <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> color_frame:
+            <span style="color:#66d9ef">continue</span>
+
+        <span style="color:#75715e">#imageをnumpy arrayに</span>
+        color_image <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asanyarray(color_frame<span style="color:#f92672">.</span>get_data())
+        depth_image <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>asanyarray(depth_frame<span style="color:#f92672">.</span>get_data())
+
+
+        cv2<span style="color:#f92672">.</span>namedWindow(<span style="color:#e6db74">&#39;RealSense:color_image&#39;</span>, cv2<span style="color:#f92672">.</span>WINDOW_AUTOSIZE)
+        cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#39;RealSense:color_image&#39;</span>, color_image)
+        cv2<span style="color:#f92672">.</span>namedWindow(<span style="color:#e6db74">&#39;RealSense:color_depth&#39;</span>, cv2<span style="color:#f92672">.</span>WINDOW_AUTOSIZE)
+        cv2<span style="color:#f92672">.</span>imshow(<span style="color:#e6db74">&#39;RealSense:color_depth&#39;</span>, depth_image)
+
+        <span style="color:#66d9ef">if</span> cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span> <span style="color:#f92672">==</span> ESC:<span style="color:#75715e">#ESCで終了</span>
+            cv2<span style="color:#f92672">.</span>destroyAllWindows()
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;finish&#39;</span>)
+            <span style="color:#66d9ef">break</span>
+        <span style="color:#66d9ef">elif</span> cv2<span style="color:#f92672">.</span>waitKey(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">&amp;</span> <span style="color:#ae81ff">0xff</span> <span style="color:#f92672">==</span> ord(<span style="color:#e6db74">&#39;s&#39;</span>):
+            cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;images/&#34;</span> <span style="color:#f92672">+</span> str(capture_count) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;color_image.png&#34;</span>, color_image)
+            cv2<span style="color:#f92672">.</span>imwrite(<span style="color:#e6db74">&#34;images/&#34;</span> <span style="color:#f92672">+</span> str(capture_count) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;depth_image.png&#34;</span>, depth_image)
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;save images&#39;</span>)
+            capture_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+<span style="color:#66d9ef">finally</span>:
+
+    <span style="color:#75715e">#ストリーミング停止</span>
+    pipeline<span style="color:#f92672">.</span>stop()
+</code></pre></div><h1 id="参考">参考</h1>
+<ul>
+<li><a href="https://mirai-tec.hatenablog.com/entry/2018/07/29/150902">Pythonではじめる3Dセンシング!! - みらいテックラボ</a></li>
+<li><a href="http://www1.meijo-u.ac.jp/~kohara/cms/technicalreport/ubuntu1804_realsense">Ubuntu18.04 + RealSenseの環境構築 - ロボットシステムデザイン研究室</a></li>
+<li><a href="https://qiita.com/tom_eng_ltd/items/635414ff0b43e1c506f6">RealSence D435をPythonで使う【画角を合わせる編】（Windows10）- Qiita</a></li>
+</ul>
+</article>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+  </div><footer class="footer">
+  <div class="content has-text-centered">
+    <p>Powered by <a href="https://gohugo.io">Hugo</a>. Theme <a href="https://www.github.com/wlh320/hugo-theme-hulga">Hulga</a></p>
+    <p>Copyright © 2020 こてつ. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script><script>
+addBackToTop({
+  diameter: 42,
+
+  backgroundColor: "#1793d0",
+
+  innerHTML: '<svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>',
+  textColor: '#fff'
+});
+</script>
+<script type="text/javascript">
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    
+    if ($navbarBurgers.length > 0) {
+      
+      $navbarBurgers.forEach(el => {
+        el.addEventListener('click', () => {
+          
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+        });
+      });
+    }
+  });
+</script>
+  <link id="hlcss" rel="stylesheet" type="text/css">
+
+<script>
+  function addCss(url) {
+    var link = document.getElementById('hlcss');
+    link.href = url;
+  }
+  
+  var darkcss = "https://Black092.github.io/blog/css/monokailight.css"
+  
+  var lightcss = "https://Black092.github.io/blog/css/monokailight.css"
+  
+  if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
+    addCss(lightcss);
+  } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    addCss(darkcss);
+  } else {
+    addCss(lightcss);
+  }
+  window.matchMedia("(prefers-color-scheme: dark)").addListener(
+    e => e.matches && addCss(darkcss)
+  );
+  window.matchMedia("(prefers-color-scheme: light)").addListener(
+    e => e.matches && addCss(lightcss)
+  );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script><script>
+  anchors.options = {
+    placement: 'left',
+    
+    icon: '#'
+  };
+  anchors.add('.content h1, .content h2, .content h3');
+</script>
+
+
+  
+
+</body>
+
+</html>

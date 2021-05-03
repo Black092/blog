@@ -1,0 +1,275 @@
+<!DOCTYPE html> 
+<html lang="ja"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"><meta name="msapplication-TileColor" content="#1793d0">
+  <meta name="theme-color" content="#1793d0"><title>ubuntu18でopenposeを使う方法 | こてつ技術メモ</title>
+  <meta property="og:title" content="ubuntu18でopenposeを使う方法 - こてつ技術メモ">
+  <meta property="og:type" content="article">
+  
+  <meta property="article:published_time" content="2021-01-03T00:55:33&#43;08:00">
+  
+  
+  <meta property="article:modified_time" content="2021-01-03T00:55:33&#43;08:00">
+  
+  <meta name="keywords" content="blog">
+  <meta name="description" content="KO-TETSU(こてつ)の技術メモ"><meta name="author" content="">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://Black092.github.io/blog/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://Black092.github.io/blog/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="https://Black092.github.io/blog/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://Black092.github.io/blog/android-icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://Black092.github.io/blog/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://Black092.github.io/blog/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://Black092.github.io/blog/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://Black092.github.io/blog/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://Black092.github.io/blog/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://Black092.github.io/blog/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://Black092.github.io/blog/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://Black092.github.io/blog/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://Black092.github.io/blog/apple-icon-180x180.png">
+  <link rel="stylesheet" type="text/css" href="https://Black092.github.io/blog/css/hulga.min.css">
+</head><body>
+  <div id="main"><section class="hero is-primary shadow-hero ">
+  <div class="hero-head">
+    <nav class="navbar is-primary">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item " href="https://Black092.github.io/blog/">
+        こてつ技術メモ
+      </a>
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/" title="index">Home</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/tags/" title="tag">Tag</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/categories/" title="categories">Category</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/post/001/" title="about">About</a>
+        
+        <a class="navbar-item" href="https://github.com/Black092/" title="github">Github</a>
+        
+        <a class="navbar-item" href="https://twitter.com/Black_kitten092" title="twitter">Twitter</a>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+  </div>
+  <div class="hero-body">
+    <header class="container has-text-centered">
+      <h1 class="title post-title">
+        ubuntu18でopenposeを使う方法
+      </h1>
+      <h2 class="subtitle"><time class="post-meta">2021/01/03</time> ・
+          
+            <span class="post-tag post-meta">
+              <a href="https://Black092.github.io/blog//categories/%E7%94%BB%E5%83%8F%E8%AA%8D%E8%AD%98">画像認識</a>
+            </span>
+          
+            <span class="post-tag post-meta">
+              <a href="https://Black092.github.io/blog//categories/openpose">openpose</a>
+            </span>
+          
+        </h2>
+      
+      <div class="tagbox post-meta">
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/openpose">#openpose</a>
+        </span>
+        
+      </div>
+      
+    </header>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      
+      <div class="column is-three-fifths is-offset-one-fifth">
+      
+        <article class="content" id="post-content"><h1 id="openpose">openpose</h1>
+<p>openposeは人物の骨格推定などができるもの。
+使うのは本家のcaffe版の方でGPUあり版となし版があるがあり版の解説。</p>
+<h2 id="github">github</h2>
+<p>公式のgithubは<a href="https://github.com/CMU-Perceptual-Computing-Lab/openpose">こちら</a></p>
+<h1 id="事前準備">事前準備</h1>
+<h2 id="必要なライブラリのインストール">必要なライブラリのインストール</h2>
+<ul>
+<li>openCVなどのインストール</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-get install <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     qtbase5-dev <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     build-essential <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     gdebi <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>     libopencv-dev
+</code></pre></div><h2 id="cmakeのインストール">cmakeのインストール</h2>
+<ul>
+<li>古いcmakeの削除</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt purge cmake-qt-gui
+</code></pre></div><ul>
+<li>
+<p>必ず最新のcmakeをダウンロードしてくる</p>
+<ul>
+<li>cmakeの<a href="https://cmake.org/download/">ダウンロード</a></li>
+</ul>
+</li>
+<li>
+<p>もしくは以下のコマンドでも可</p>
+</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ wget https://github.com/Kitware/CMake/releases/download/v3.13.4/cmake-3.13.4.tar.gz
+$ tar xzvf cmake-3.13.4.tar.gz    
+</code></pre></div><ul>
+<li>移動してcakeをコンパイルとかしてインストールする</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cd cmake-3.13.4
+$ ./configure --qt-gui
+$ ./bootstrap
+$ make -j6
+$ sudo make install
+</code></pre></div><h1 id="openposeのインストール">openposeのインストール</h1>
+<h2 id="作業フォルダの作成">作業フォルダの作成</h2>
+<ul>
+<li>openpose_wsというフォルダ(任意)を作ってcloneしてくる</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ mkdir openpose_ws
+$ cd openpose_ws
+$ git clone https://github.com/CMU-Perceptual-Computing-Lab/openpose
+$ cd openpose
+</code></pre></div><ul>
+<li>必要なものをインストールしてくれる</li>
+<li>エラーが出ても特にopenposeそのものに関係したものではないので無視</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo bash ./scripts/ubuntu/install_deps.sh
+    
+<span style="color:#75715e"># たぶんこんな感じのエラーが出るけど無視</span>
+<span style="color:#75715e"># Command &#34;python setup.py egg_info&#34; failed with error code 1 in /tmp/pip-build-rfjg8m_p/opencv-python/</span>
+</code></pre></div><ul>
+<li>build先のフォルダを作っておく</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cd ~/openpose_ws/openpose/
+$ mkdir build
+$ cd build
+</code></pre></div><h2 id="3rdpartyの取得">3rdpartyの取得</h2>
+<ul>
+<li>caffeの取得</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cd ~/openpose_ws/openpose/3rdparty
+$ git clone https://github.com/CMU-Perceptual-Computing-Lab/caffe.git
+</code></pre></div><ul>
+<li>pybindの取得</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ git clone https://github.com/pybind/pybind11.git
+</code></pre></div><h2 id="cmakeでビルド">cmakeでビルド</h2>
+<ul>
+<li>buildフォルダに移動してcmakeする</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cd ~/openpose_ws/openpose/build
+$ cmake -DBUILD_PYTHON<span style="color:#f92672">=</span>true ..
+$ make -j6
+$ sudo make install
+</code></pre></div><h1 id="参考">参考</h1>
+<ul>
+<li><a href="https://qiita.com/myoshimi/items/cf64c91cd22c516bb49b">OpenPoseで姿勢解析環境のセットアップ Ubuntu18.04LTS</a></li>
+</ul>
+</article>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+  </div><footer class="footer">
+  <div class="content has-text-centered">
+    <p>Powered by <a href="https://gohugo.io">Hugo</a>. Theme <a href="https://www.github.com/wlh320/hugo-theme-hulga">Hulga</a></p>
+    <p>Copyright © 2020 こてつ. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script><script>
+addBackToTop({
+  diameter: 42,
+
+  backgroundColor: "#1793d0",
+
+  innerHTML: '<svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>',
+  textColor: '#fff'
+});
+</script>
+<script type="text/javascript">
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    
+    if ($navbarBurgers.length > 0) {
+      
+      $navbarBurgers.forEach(el => {
+        el.addEventListener('click', () => {
+          
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+        });
+      });
+    }
+  });
+</script>
+  <link id="hlcss" rel="stylesheet" type="text/css">
+
+<script>
+  function addCss(url) {
+    var link = document.getElementById('hlcss');
+    link.href = url;
+  }
+  
+  var darkcss = "https://Black092.github.io/blog/css/monokailight.css"
+  
+  var lightcss = "https://Black092.github.io/blog/css/monokailight.css"
+  
+  if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
+    addCss(lightcss);
+  } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    addCss(darkcss);
+  } else {
+    addCss(lightcss);
+  }
+  window.matchMedia("(prefers-color-scheme: dark)").addListener(
+    e => e.matches && addCss(darkcss)
+  );
+  window.matchMedia("(prefers-color-scheme: light)").addListener(
+    e => e.matches && addCss(lightcss)
+  );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script><script>
+  anchors.options = {
+    placement: 'left',
+    
+    icon: '#'
+  };
+  anchors.add('.content h1, .content h2, .content h3');
+</script>
+
+
+  
+
+</body>
+
+</html>

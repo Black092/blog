@@ -1,0 +1,418 @@
+<!DOCTYPE html> 
+<html lang="ja"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="msapplication-TileImage" content="/ms-icon-144x144.png"><meta name="msapplication-TileColor" content="#1793d0">
+  <meta name="theme-color" content="#1793d0"><title>CUDAとcuDNN(GPU付きUbuntuデスクトップ) | こてつ技術メモ</title>
+  <meta property="og:title" content="CUDAとcuDNN(GPU付きUbuntuデスクトップ) - こてつ技術メモ">
+  <meta property="og:type" content="article">
+  
+  <meta property="article:published_time" content="2021-01-03T00:55:33&#43;08:00">
+  
+  
+  <meta property="article:modified_time" content="2021-01-03T00:55:33&#43;08:00">
+  
+  <meta name="keywords" content="blog">
+  <meta name="description" content="KO-TETSU(こてつ)の技術メモ"><meta name="author" content="">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://Black092.github.io/blog/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://Black092.github.io/blog/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="https://Black092.github.io/blog/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="https://Black092.github.io/blog/android-icon-192x192.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="https://Black092.github.io/blog/apple-icon-57x57.png">
+  <link rel="apple-touch-icon" sizes="60x60" href="https://Black092.github.io/blog/apple-icon-60x60.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="https://Black092.github.io/blog/apple-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://Black092.github.io/blog/apple-icon-76x76.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="https://Black092.github.io/blog/apple-icon-114x114.png">
+  <link rel="apple-touch-icon" sizes="120x120" href="https://Black092.github.io/blog/apple-icon-120x120.png">
+  <link rel="apple-touch-icon" sizes="144x144" href="https://Black092.github.io/blog/apple-icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="https://Black092.github.io/blog/apple-icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://Black092.github.io/blog/apple-icon-180x180.png">
+  <link rel="stylesheet" type="text/css" href="https://Black092.github.io/blog/css/hulga.min.css">
+</head><body>
+  <div id="main"><section class="hero is-primary shadow-hero ">
+  <div class="hero-head">
+    <nav class="navbar is-primary">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item " href="https://Black092.github.io/blog/">
+        こてつ技術メモ
+      </a>
+      <a role="button" class="navbar-burger" data-target="navMenu" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" id="navMenu">
+      <div class="navbar-end">
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/" title="index">Home</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/tags/" title="tag">Tag</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/categories/" title="categories">Category</a>
+        
+        <a class="navbar-item" href="https://Black092.github.io/blog/post/001/" title="about">About</a>
+        
+        <a class="navbar-item" href="https://github.com/Black092/" title="github">Github</a>
+        
+        <a class="navbar-item" href="https://twitter.com/Black_kitten092" title="twitter">Twitter</a>
+        
+      </div>
+    </div>
+  </div>
+</nav>
+  </div>
+  <div class="hero-body">
+    <header class="container has-text-centered">
+      <h1 class="title post-title">
+        CUDAとcuDNN(GPU付きUbuntuデスクトップ)
+      </h1>
+      <h2 class="subtitle"><time class="post-meta">2021/01/03</time> ・
+          
+            <span class="post-tag post-meta">
+              <a href="https://Black092.github.io/blog//categories/%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">セットアップ</a>
+            </span>
+          
+        </h2>
+      
+      <div class="tagbox post-meta">
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97">#セットアップ</a>
+        </span>
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/gpu">#GPU</a>
+        </span>
+        
+        <span class="post-tag">
+          <a href="https://Black092.github.io/blog//tags/cuda">#CUDA</a>
+        </span>
+        
+      </div>
+      
+    </header>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      
+      <div class="column is-three-fifths is-offset-one-fifth">
+      
+        <article class="content" id="post-content"><h1 id="nvidia-gpu">NVIDIA GPU</h1>
+<p>NVIDIAのドライバー、CUDA、cuDNNのメモ</p>
+<h1 id="環境">環境</h1>
+<ul>
+<li>OS : ubuntu18.04</li>
+<li>GPU : RTX1070</li>
+</ul>
+<h1 id="事前準備">事前準備</h1>
+<h2 id="すでに入っているか確認する">すでに入っているか確認する</h2>
+<ul>
+<li>ドライバーの確認</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ubuntu-drivers list
+</code></pre></div><ul>
+<li>cudaの確認</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ dpkg -l | grep cuda
+</code></pre></div><ul>
+<li>cuDNNの確認</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ dpkg -l | grep cudnn
+</code></pre></div><h2 id="すでに入っているの削除する">すでに入っているの削除する</h2>
+<ul>
+<li>ドライバーの削除</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-get --purge remove nvidia-*
+$ sudo apt-get --purge remove libnvidia-*
+</code></pre></div><ul>
+<li>cudaの削除</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-get --purge remove cuda-*
+$ sudo apt-get --purge remove libcuda-*
+</code></pre></div><ul>
+<li>cuDNNの削除</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-get --purge remove cudnn-*
+$ sudo apt-get --purge remove libcudnn-*
+</code></pre></div><ul>
+<li>上記のいずれかの削除をしたら以下のコマンドを実行しておく。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-get autoremove
+</code></pre></div><ul>
+<li>念の為ドライバーが認識されているかどうか試してみる。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ nvidia-smi
+</code></pre></div><ul>
+<li><code>nvidia-smi</code>をコマンド入力してもないよって言われる状態になるはず。</li>
+</ul>
+<h1 id="インストール編">インストール編</h1>
+<h2 id="ドライバーをいれる">ドライバーをいれる</h2>
+<ul>
+<li>リポジトリの追加</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo add-apt-repository ppa:graphics-drivers/ppa
+$ sudo apt update
+</code></pre></div><ul>
+<li>インストール推奨Driverを確認</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ubuntu-drivers devices
+</code></pre></div><ul>
+<li>参考：推奨かどうかは出力内容に<code>recommended</code> があるかどうかを確認する</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>出力結果より抜粋</th>
+<th>driver : <code>nvidia-driver-455</code> - third-party free <code>recommended</code></th>
+</tr>
+</thead>
+</table>
+<ul>
+<li><code>nvidia-driver-455</code>をインストール</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt install nvidia-driver-455
+</code></pre></div><ul>
+<li>再起動</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo reboot
+</code></pre></div><ul>
+<li>ドライバーが認識されているか確認する。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ nvidia-smi
+</code></pre></div><table>
+<thead>
+<tr>
+<th>出力内容より抜粋</th>
+<th>NVIDIA-SMI 455.45.01 Driver Version: 455.45.01 CUDA Version: 11.1</th>
+</tr>
+</thead>
+</table>
+<h2 id="cuda">CUDA</h2>
+<p>今回は試しにCUDA10.1をいれてみる。</p>
+<ul>
+<li>CUDAについては<a href="https://developer.nvidia.com/cuda-toolkit-archive">cuda-toolkit</a>から選択してダウンロード。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>項目</th>
+<th>選択肢</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operating System</td>
+<td>Linux</td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>x86_64</td>
+</tr>
+<tr>
+<td>Distribution</td>
+<td>Ubuntu</td>
+</tr>
+<tr>
+<td>Version</td>
+<td>18.04</td>
+</tr>
+<tr>
+<td>Installer Type</td>
+<td>deb(local)</td>
+</tr>
+<tr>
+<td>URL</td>
+<td><a href="https://developer.nvidia.com/cuda-10.1-download-archive-base?target_os=Linux&amp;target_arch=x86_64&amp;target_distro=Ubuntu&amp;target_version=1804&amp;target_type=deblocal">上記の内容を入力したもの</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>サイトのDownloadからdebをダウンロードする。</li>
+<li>サイトの<code>Installation Instructions:</code>にコマンド入力方法があるのでそちらを参考に実行していく。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo dpkg -i cuda-repo-ubuntu1804-10-1-local-10.1.105-418.39_1.0-1_amd64.deb
+</code></pre></div><ul>
+<li>以下の<code>&lt;version&gt;</code>は上記の<code>10-1-local-10.1.105-418.39</code>の部分を入力する。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-key add /var/cuda-repo-&lt;version&gt;/7fa2af80.pub<span style="color:#e6db74">`</span>
+$ sudo apt-get update
+</code></pre></div><ul>
+<li>本家は<code>cuda</code>だけどバージョンわかりやすいように<code>cuda-10.1</code>に変更する。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo apt-get install cuda-10.1
+</code></pre></div><ul>
+<li><code>/usr/local/</code>に<code>cuda-10.1</code>が入っているか確認する。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cat /usr/local/cuda-10.1
+</code></pre></div><h2 id="cudnn">cuDNN</h2>
+<ul>
+<li>cuDNNについてはcudaのバージョンを考慮しながら<a href="https://developer.nvidia.com/rdp/cudnn-archive">cuDNN</a>からダウンロードしてくる。</li>
+<li>項目については<code>Download cuDNN v7.6.5 (November 5th, 2019), for CUDA 10.1</code>を選択して以下の３つをダウンロード。
+<ul>
+<li>cuDNN Runtime Library for Ubuntu18.04 (Deb)</li>
+<li>cuDNN Developer Library for Ubuntu18.04 (Deb)</li>
+<li>cuDNN Code Samples and User Guide for Ubuntu18.04 (Deb)</li>
+</ul>
+</li>
+<li>ダウンロード時はログインが必要になるので<a href="https://temp-mail.org/ja/">Temp mail</a>とかで適当にアカウントつくるのもあり。</li>
+<li>ダウンロードしてきたら次のコマンドを実行する。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo dpkg -i libcudnn7_7.6.5.32-1+cuda10.1_amd64.deb
+$ sudo dpkg -i libcudnn7-dev_7.6.5.32+cuda10.1_amd64.deb
+$ sudo dpkg -i libcudnn7-dec_7.6.5.32+cuda10.1_amd64deb
+</code></pre></div><h2 id="pathの設定">PATHの設定</h2>
+<ul>
+<li>pathの設定のために以下のコマンドを実行する。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ echo -e <span style="color:#e6db74">&#34;\n## CUDA and cuDNN paths&#34;</span> &gt;&gt; ~/.bashrc
+$ echo <span style="color:#e6db74">&#39;export PATH=/usr/local/cuda-10.1/bin:${PATH}&#39;</span> &gt;&gt; ~/.bashrc
+$ echo <span style="color:#e6db74">&#39;export LD_LIBRARY_PATH=/usr/local/cuda-10.1/lib64:${LD_LIBRARY_PATH}&#39;</span> &gt;&gt; ~/.bashrc
+</code></pre></div><h2 id="cudaとcudnnのバージョン確認">CUDAとcuDNNのバージョン確認</h2>
+<ul>
+<li>CUDAのバージョン</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ nvcc -V
+</code></pre></div><ul>
+<li>cuDNNのバージョン</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cat /usr/include/cudnn.h | grep CUDNN_MAJOR -A <span style="color:#ae81ff">2</span>
+</code></pre></div><h1 id="cudaを入れるドライバーが認識されなくなるとき">cudaを入れるドライバーが認識されなくなるとき</h1>
+<ul>
+<li>cudaを入れるとGPUドライバーが認識されなくなるときがあります。</li>
+</ul>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://qiita.com/ell/items/be3d3527b723f70f888d">nvidia-smi で Failed to initialize NVML: Driver/library version mismatch と言われたとき【GPU】</a>を参考にしてみてください。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ nvidia-smi
+
+<span style="color:#75715e"># 出力結果</span>
+<span style="color:#75715e"># Failed to initialize NVML: Driver/library version mismatch</span>
+
+$ sudo rmmod nvidia_drm
+$ sudo rmmod nvidia_modeset
+$ sudo rmmod nvidia_uvm
+
+</code></pre></div><h2 id="sudo-rmmod-nvidia_drmできないとき">sudo rmmod nvidia_drmできないとき</h2>
+<ul>
+<li>ドライバーのアンロード</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ systemctl stop gdm
+$ systemctl isolate multi-user.target
+$ systemctl stop systemd-logind
+$ killall gdm-x-session
+</code></pre></div><ul>
+<li>再実行</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo rmmod nvidia_drm
+$ sudo rmmod nvidia_modeset
+$ sudo rmmod nvidia_uvm
+</code></pre></div><ul>
+<li>nvidiaをアンロードしてnvidia-smiする</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ sudo rmmod nvidia
+$ nvidia-smi
+</code></pre></div><h1 id="おまけ">おまけ</h1>
+<h2 id="cudaバージョンの決め方">CUDAバージョンの決め方</h2>
+<ul>
+<li>Tensorflow-GPUやpytorchを使う場合はCUDAのバージョンを確認する必要がある。
+<ul>
+<li><a href="https://www.tensorflow.org/install/source#tested_build_configurations">Tensorflow-GPU</a></li>
+<li><a href="https://pytorch.org/get-started/previous-versions/">PyTorch</a></li>
+</ul>
+</li>
+</ul>
+</article>
+      </div>
+      
+      </div>
+    </div>
+  </div>
+</section>
+
+  </div><footer class="footer">
+  <div class="content has-text-centered">
+    <p>Powered by <a href="https://gohugo.io">Hugo</a>. Theme <a href="https://www.github.com/wlh320/hugo-theme-hulga">Hulga</a></p>
+    <p>Copyright © 2020 こてつ. All rights reserved.
+    </p>
+  </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script><script>
+addBackToTop({
+  diameter: 42,
+
+  backgroundColor: "#1793d0",
+
+  innerHTML: '<svg viewBox="0 0 24 24"><path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z"/></svg>',
+  textColor: '#fff'
+});
+</script>
+<script type="text/javascript">
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+    
+    if ($navbarBurgers.length > 0) {
+      
+      $navbarBurgers.forEach(el => {
+        el.addEventListener('click', () => {
+          
+          const target = el.dataset.target;
+          const $target = document.getElementById(target);
+          
+          el.classList.toggle('is-active');
+          $target.classList.toggle('is-active');
+        });
+      });
+    }
+  });
+</script>
+  <link id="hlcss" rel="stylesheet" type="text/css">
+
+<script>
+  function addCss(url) {
+    var link = document.getElementById('hlcss');
+    link.href = url;
+  }
+  
+  var darkcss = "https://Black092.github.io/blog/css/monokailight.css"
+  
+  var lightcss = "https://Black092.github.io/blog/css/monokailight.css"
+  
+  if (window.matchMedia('(prefers-color-scheme)').media === 'not all') {
+    addCss(lightcss);
+  } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+    addCss(darkcss);
+  } else {
+    addCss(lightcss);
+  }
+  window.matchMedia("(prefers-color-scheme: dark)").addListener(
+    e => e.matches && addCss(darkcss)
+  );
+  window.matchMedia("(prefers-color-scheme: light)").addListener(
+    e => e.matches && addCss(lightcss)
+  );
+</script>
+<script src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js"></script><script>
+  anchors.options = {
+    placement: 'left',
+    
+    icon: '#'
+  };
+  anchors.add('.content h1, .content h2, .content h3');
+</script>
+
+
+  
+
+</body>
+
+</html>

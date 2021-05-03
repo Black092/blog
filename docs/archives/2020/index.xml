@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>2020 on こてつ技術メモ</title>
+    <link>https://Black092.github.io/blog/archives/2020/</link>
+    <description>Recent content in 2020 on こてつ技術メモ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Mon, 04 Jan 2021 13:30:37 +0900</lastBuildDate><atom:link href="https://Black092.github.io/blog/archives/2020/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ubuntu18でRealSense D435からpython3を使ってカメラ画像を取得する</title>
+      <link>https://Black092.github.io/blog/post/003/</link>
+      <pubDate>Mon, 04 Jan 2021 13:30:37 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/003/</guid>
+      <description>RealSenseの深度カメラでRGBとDepth画像を保存するpython3のコードを作る。</description>
+    </item>
+    
+    <item>
+      <title>CBT形式で基本情報を受けて来た話</title>
+      <link>https://Black092.github.io/blog/post/007/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/007/</guid>
+      <description>基本情報技術者試験</description>
+    </item>
+    
+    <item>
+      <title>CUDAとcuDNN(GPU付きUbuntuデスクトップ)</title>
+      <link>https://Black092.github.io/blog/post/004/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/004/</guid>
+      <description>GPU付きUbuntuデスクトップにCUDAを入れた話</description>
+    </item>
+    
+    <item>
+      <title>dockerのインストール</title>
+      <link>https://Black092.github.io/blog/post/006/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/006/</guid>
+      <description>dockerの記録</description>
+    </item>
+    
+    <item>
+      <title>ubuntu18でopenposeを使う方法</title>
+      <link>https://Black092.github.io/blog/post/005/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/005/</guid>
+      <description>ubuntu環境でopenposeを動かそうとした際の記録</description>
+    </item>
+    
+    <item>
+      <title>hugoで技術ブログを作ってみた</title>
+      <link>https://Black092.github.io/blog/post/002/</link>
+      <pubDate>Fri, 01 Jan 2021 20:20:14 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/002/</guid>
+      <description>hugoでブログを作った際の記録</description>
+    </item>
+    
+    <item>
+      <title>About:このサイトについて</title>
+      <link>https://Black092.github.io/blog/post/001/</link>
+      <pubDate>Fri, 01 Jan 2021 11:02:51 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/001/</guid>
+      <description>このサイトについての説明</description>
+    </item>
+    
+  </channel>
+</rss>

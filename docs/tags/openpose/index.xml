@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>openpose on こてつ技術メモ</title>
+    <link>https://Black092.github.io/blog/tags/openpose/</link>
+    <description>Recent content in openpose on こてつ技術メモ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 03 Jan 2021 00:55:33 +0900</lastBuildDate><atom:link href="https://Black092.github.io/blog/tags/openpose/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>ubuntu18でopenposeを使う方法</title>
+      <link>https://Black092.github.io/blog/post/005/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/005/</guid>
+      <description>ubuntu環境でopenposeを動かそうとした際の記録</description>
+    </item>
+    
+  </channel>
+</rss>

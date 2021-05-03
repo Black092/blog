@@ -1,0 +1,61 @@
+#baseURL = "http://example.org/"
+ baseURL = "https://Black092.github.io/blog/"
+ publishDir = "docs"
+ canonifyurls = true
+languageCode = "ja"
+title = "こてつ技術メモ"
+paginate = 10
+theme = "hulga"
+
+[params]
+author = "こてつ"
+
+keywords = "blog"
+
+description = "こてつの技術ブログ"
+
+primaryColor = "#1793d0"
+
+subtitle = "こてつの技術ブログ"
+
+copyright = "Copyright © 2020 こてつ. All rights reserved."
+
+
+
+[menu]
+  [[menu.main]]
+    identifier = "index"
+    name = "Home"
+    url = "/"
+    weight = 1
+  [[menu.main]]
+    identifier = "tag"
+    name = "Tag"
+    url = "/tags/"
+    weight = 2
+  [[menu.main]]
+    identifier = "categories"
+    name = "Category"
+    url = "/categories/"
+    weight = 3
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/post/001/"
+    weight = 4
+  [[menu.main]]
+    identifier = "github"
+    name = "Github"
+    url = "https://github.com/Black092/"
+    weight = 5
+  [[menu.main]]
+    identifier = "twitter"
+    name = "Twitter"
+    url = "https://twitter.com/Black_kitten092"
+    weight = 6
+
+  [taxonomies]
+    category = "categories"
+    tag = "tags"
+    archive = "archives"
+    about = "about"

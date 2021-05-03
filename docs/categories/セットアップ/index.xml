@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>セットアップ on こてつ技術メモ</title>
+    <link>https://Black092.github.io/blog/categories/%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97/</link>
+    <description>Recent content in セットアップ on こてつ技術メモ</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <lastBuildDate>Sun, 03 Jan 2021 00:55:33 +0900</lastBuildDate><atom:link href="https://Black092.github.io/blog/categories/%E3%82%BB%E3%83%83%E3%83%88%E3%82%A2%E3%83%83%E3%83%97/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CUDAとcuDNN(GPU付きUbuntuデスクトップ)</title>
+      <link>https://Black092.github.io/blog/post/004/</link>
+      <pubDate>Sun, 03 Jan 2021 00:55:33 +0900</pubDate>
+      
+      <guid>https://Black092.github.io/blog/post/004/</guid>
+      <description>GPU付きUbuntuデスクトップにCUDAを入れた話</description>
+    </item>
+    
+  </channel>
+</rss>
